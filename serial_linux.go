@@ -109,14 +109,11 @@ func openPort(name string, baud int, databits byte, parity Parity, stopbits Stop
 	t.Cc[unix.VMIN] = vmin
 	t.Cc[unix.VTIME] = vtime
 
-	if _, _, errno := unix.Syscall6(
+	if _, _, errno := unix.Syscall(
 		unix.SYS_IOCTL,
 		uintptr(fd),
 		uintptr(unix.TCSETS2),
 		uintptr(unsafe.Pointer(&t)),
-		0,
-		0,
-		0,
 	); errno != 0 {
 		return nil, errno
 	}
